@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <h1>{{ title }}</h1>
+    <p>{{ claim }}</p>
+
+    {% for post in object_list %}
+        <a href="{{ post.owner }}/{{ post.pk }}">
+            <div>
+                <h1>{{ post.title }}</h1>
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" width="250">
+                <p>{{ post.intro }}</p>
+            </div>
+        </a>
+    {% endfor %}
+
+{% endblock %}

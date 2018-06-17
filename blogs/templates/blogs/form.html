@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Nuevo Post{% endblock %}
+
+{% block body %}
+
+<h1>Nuevo Post</h1>
+
+{% include 'includes/messages.html' %}
+
+<form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear post</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} Signup {% endblock %}
+
+{% block body %}
+
+<h1>Signup</h1>
+
+{% include 'includes/messages.html'  %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Signup</button>
+    </form>
+{% endblock %}

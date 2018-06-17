@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <h1>Blogs</h1>
+
+    <ul>
+    {% for user in users %}
+        <li>Ir al blog de <a href="{% url 'blogs-list' %}{{ user.username }}">{{ user.username }}</a></li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
