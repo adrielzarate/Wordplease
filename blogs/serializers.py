@@ -1,6 +1,19 @@
+from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 
 from blogs.models import Post
+
+
+class BlogsListSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+
+    def to_representation(self, obj):
+        return {
+            'username': obj.username,
+            'url': '/blogs/'+ obj.username
+        }
 
 
 class PostListSerializer(ModelSerializer):

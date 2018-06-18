@@ -39,7 +39,7 @@ class BlogView(ListView):
     template_name = 'blogs/posts.html'
 
     def get_queryset(self):
-        return Post.objects.filter(owner__username=self.kwargs['owner'])
+        return Post.objects.filter(owner__username=self.kwargs['owner']).order_by('-pub_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

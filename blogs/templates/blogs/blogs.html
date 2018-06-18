@@ -6,7 +6,7 @@
 
     <ul>
     {% for user in users %}
-        <li>Ir al blog de <a href="{% url 'blogs-list' %}{{ user.username }}">{{ user.username }}</a></li>
+        <li>Ir al blog de <a href="{% url 'blogslist' %}{{ user.username }}">{{ user.username }}</a></li>
     {% endfor %}
     </ul>
 

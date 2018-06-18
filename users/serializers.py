@@ -12,6 +12,7 @@ class UserSerializer(UserListSerializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     password = serializers.CharField()
+    url = serializers.CharField()
 
     def create(self, validated_data):
         user = User()
