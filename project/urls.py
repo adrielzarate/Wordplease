@@ -16,25 +16,34 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
+from blogs.api import PostViewSet
 from blogs.views import HomeView, BlogView, PostFormView, PostView, BlogsView
+from users.api import UserViewSet
 from users.views import LoginView, LogoutView, SignupView
+
+router = DefaultRouter()
+router.register('users', UserViewSet)
+# router.register('blogs', BlogViewSet, base_name='blogs')
+router.register('posts', PostViewSet, base_name='posts')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', HomeView.as_view(), name='home'), # ultimos posts de todos los usuarios
-    path('blogs/', BlogsView.as_view(), name='blogs-list'), # listado de blogs
-    path('blogs/<owner>', BlogView.as_view(), name='user-blog'), # blog de un usuario
+    path('', HomeView.as_view(), name='home'),
+    path('blogs/', BlogsView.as_view(), name='blogs-list'),
+    path('blogs/<owner>', BlogView.as_view(), name='user-blog'),
+    path('blogs/<owner>/<int:pk>', PostView.as_view(), name='user-post'),
+    path('new-post', PostFormView.as_view(), name='new-post'),
+    path('login', LoginView.as_view(), name='login'),
+    path('logout', LogoutView.as_view(), name='logout'),
+    path('signup', SignupView.as_view(), name='signup'),
 
+    # path('api/v1/blogs', include(router.urls)),
 
-    path('blogs/<owner>/<int:pk>', PostView.as_view(), name='user-post'), # post del blog de un usuario
+    path('api/v1/', include(router.urls)),
 
-
-    path('new-post', PostFormView.as_view(), name='new-post'), # formulario para crear nuevo post
-
-    path('login', LoginView.as_view(), name='login'), # login
-    path('logout', LogoutView.as_view(), name='logout'), # logout
-    path('signup', SignupView.as_view(), name='signup'), # registrarse
+    # path('api/v1/posts/update', include(router.urls)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

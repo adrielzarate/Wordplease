@@ -26,7 +26,7 @@ class UserSerializer(UserListSerializer):
         return instance
 
     def validate_username(self, username):
-        if (self.instance is None or self.instance.username != username) and User.objects.filter(username=username).exists(): # exists devuelve True o False si existe algun resultado del filtro
+        if (self.instance is None or self.instance.username != username) and User.objects.filter(username=username).exists():
             raise ValidationError('Ya existe un usuario con ese username')
 
         return username
