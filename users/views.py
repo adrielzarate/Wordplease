@@ -63,8 +63,9 @@ class SignupView(View):
             url = request.GET.get('next', 'home')
             return redirect(url)
         else:
-            form = SignupForm()
-        return render(request, 'signup.html', {'form': form})
+            # form = SignupForm()
+            messages.error(request, 'Hubo un error en la validacion del formulario, por favor revisa los datos ingresados')
+        return render(request, 'users/signup.html', {'form': form})
 
 
 class LogoutView(View):

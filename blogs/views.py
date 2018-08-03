@@ -6,6 +6,8 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView
+from django.utils.datetime_safe import datetime
+from django.db.models import Q
 
 from blogs.forms import PostForm
 from blogs.models import Post
@@ -17,7 +19,11 @@ class HomeView(ListView):
 
     def get_queryset(self):
         result = super().get_queryset()
-        return result.order_by('-pub_date')
+
+        if self.request.user.is_authenticated:
+            return result.filter(Q(owner=self.request.user) | Q(pub_date__lte=datetime.now()))
+        else:
+            return result.filter(pub_date__lte=datetime.now()).order_by('-pub_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -39,12 +45,15 @@ class BlogView(ListView):
     template_name = 'blogs/posts.html'
 
     def get_queryset(self):
-        return Post.objects.filter(owner__username=self.kwargs['owner']).order_by('-pub_date')
+        if self.request.user.is_authenticated:
+            return Post.objects.filter(owner__username=self.kwargs['owner']).order_by('-pub_date')
+        else:
+            return Post.objects.filter(owner__username=self.kwargs['owner'], pub_date__lte=datetime.now()).order_by('-pub_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Mi blog'
-        context['claim'] = 'Blog con los posts que has creado'
+        context['title'] = 'Blog de ' + self.kwargs['owner']
+        context['claim'] = 'Blog con los posts creados por ' + self.kwargs['owner']
         return context
 
 
@@ -60,7 +69,10 @@ class PostView(View):
         """
 
         try:
-            post = Post.objects.select_related().get(pk=pk)
+            if self.request.user.is_authenticated:
+                post = Post.objects.select_related().get(pk=pk)
+            else:
+                post = Post.objects.filter(pub_date__lte=datetime.now()).select_related().get(pk=pk)
             owner = User.objects.get(username=owner)
         except Post.DoesNotExist:
             return HttpResponse('No existe la respuesta que buscas', status=404)

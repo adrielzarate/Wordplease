@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -21,7 +22,7 @@ class Post(models.Model):
     image = models.FileField(null=True)
     intro = models.TextField(null=True, blank=True)
     post_body = models.TextField(null=True, blank=True)
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return '{0} ($ {1})'.format(self.title, self.owner)

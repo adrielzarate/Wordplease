@@ -12,7 +12,7 @@ class BlogsListSerializer(ModelSerializer):
     def to_representation(self, obj):
         return {
             'username': obj.username,
-            'url': '/blogs/'+ obj.username
+            'url': '/blogs/' + obj.username
         }
 
 
@@ -25,7 +25,7 @@ class PostListSerializer(ModelSerializer):
 class NewPostSerializer(ModelSerializer):
     class Meta:
         model = Post
-        fields = ['title', 'category', 'intro', 'image', 'post_body']
+        fields = ['title', 'category', 'intro', 'image', 'post_body', 'pub_date']
 
 
 class PostDetailSerializer(ModelSerializer):

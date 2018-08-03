@@ -1,0 +1,3 @@
+django
+djangorestframework
+powerline-status==2.6

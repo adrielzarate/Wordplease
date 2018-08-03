@@ -6,7 +6,9 @@
             <!--<li>{{category}}</li>-->
         <!--</ul>-->
         <h1>{{post.title}}</h1>
-        <h2>$ {{post.intro}}</h2>
+        <p>Categoria: {{ post.category }}</p>
+        <p>Publicado: <time>{{post.pub_date}}</time> por {{ owner.username }} </p>
+        <h2>{{post.intro}}</h2>
         <img src="{{post.image.url}}" alt="{{post.title}}" width="250">
         <p>{{post.post_body}}</p>
     </div>
